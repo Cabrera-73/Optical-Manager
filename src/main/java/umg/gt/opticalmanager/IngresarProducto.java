@@ -138,10 +138,23 @@ public class IngresarProducto extends javax.swing.JDialog {
     private void btnAgregarBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarBDActionPerformed
         // Aqui se agrega a la BD y se prueba si se hizo correctamente
         
+       double precio = 0;
+       int existencia = 0;
+         try {
+          precio = Double.parseDouble(txtPrecioProducto.getText());
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "Por favor, ingrese un valor numérico válido para el precio.");
+        return; // Sale del método si hay un error en el precio
+        }
+         try {
+         existencia = Integer.parseInt(txtExistenciaProducto.getText());
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "Por favor, ingrese un valor numérico válido para la existencia.");
+        return; // Sale del método si hay un error en la existencia
+    }
+        
         String codigo = txtCodigoProducto.getText();
         String nombre = txtNombreProducto.getText();
-        double precio = Double.parseDouble(txtPrecioProducto.getText());
-        int existencia = Integer.parseInt(txtExistenciaProducto.getText());
         String categoria = txtCategoriaProducto.getText();
 
         try {
@@ -156,13 +169,19 @@ public class IngresarProducto extends javax.swing.JDialog {
             ps.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Producto agregado exitosamente.");
+        // Vaciar los campos de texto
+        txtCodigoProducto.setText("");
+        txtNombreProducto.setText("");
+        txtPrecioProducto.setText("");
+        txtExistenciaProducto.setText("");
+        txtCategoriaProducto.setText("");
+
             con.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al agregar producto.");
         }
-        
-        
+            
            
         
     }//GEN-LAST:event_btnAgregarBDActionPerformed
